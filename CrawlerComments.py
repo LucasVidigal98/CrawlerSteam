@@ -3,16 +3,30 @@
 from bs4 import BeautifulSoup as BS
 import requests
 import json
+import urllib.parse
 
 def crawler_review(appid):
 
 	id_review = 0
+	first = True
 
-	for i in range(5, 6):
+	for page in range(1, 5):
 
-		req = requests.get('https://steamcommunity.com/app/730/homecontent/?userreviewscursor=ssssss&userreviewsoffset=110&p=12&workshopitemspage=12&readytouseitemspage=12&mtxitemspage=12&itemspage=12&screenshotspage=12&videospage=12&artpage=12&allguidepage=12&webguidepage=12&integratedguidepage=12&discussionspage=12&numperpage=10&browsefilter=toprated&browsefilter=toprated&appid=730&appHubSubSection=10&appHubSubSection=10&l=brazilian&filterLanguage=default&searchText=&forceanon=1')
+		req = ''
+
+		print('Cometários coletados até o momento = ' + str(id_review))
+		print('Coletando cometários Appid = '+ str(appid) + 'Página = ' + str(page))
+
+		if first == True:
+			print('Aqui')
+			req = requests.get('https://steamcommunity.com/app/'+str(appid)+'/homecontent/?p='+str(page)+'&workshopitemspage='+str(page)+'&readytouseitemspage='+str(page)+'&mtxitemspage='+str(page)+'&itemspage='+str(page)+'&screenshotspage='+str(page)+'&videospage='+str(page)+'&artpage='+str(page)+'&allguidepage='+str(page)+'&webguidepage='+str(page)+'&integratedguidepage='+str(page)+'&discussionspage='+str(page)+'&numperpage=10&browsefilter=trendweek&browsefilter=trendweek&l=brazilian&appHubSubSection=10&filterLanguage=default&searchText=&forceanon=1')
+			first = False
+		else:
+			print('Aqui2')
+			req = requests.get('https://steamcommunity.com/app/'+str(appid)+'/homecontent/?userreviewscursor='+urllib.parse.quote(userreviewscursor)+'&userreviewsoffset='+userreviewsoffset+'&p='+str(page)+'&workshopitemspage='+str(page)+'&readytouseitemspage='+str(page)+'&mtxitemspage='+str(page)+'&itemspage='+str(page)+'&screenshotspage='+str(page)+'&videospage='+str(page)+'&artpage='+str(page)+'&allguidepage='+str(page)+'&webguidepage='+str(page)+'&integratedguidepage='+str(page)+'&discussionspage='+str(page)+'&numperpage=10&browsefilter=trendweek&browsefilter=trendweek&l=brazilian&appHubSubSection=10&filterLanguage=default&searchText=&forceanon=1')
+		
 		soup = BS(req.text, 'html.parser')
-		file = open('cOMPER.html', 'w')
+		file = open('Html/cOMPER.html', 'w')
 		file.write(req.text)
 		file.close()
 		reviews = soup.find_all(class_='apphub_Card modalContentLink interactable')
@@ -88,12 +102,21 @@ def crawler_review(appid):
 				content_reviews.update({id_review:content})
 				id_review += 1
 
+		user_cards = soup.find_all('input')
+		userreviewscursor = str(user_cards[0])
+		userreviewscursor = userreviewscursor[53:userreviewscursor.rfind('"')]
+		print(userreviewscursor)
+		userreviewsoffset = str(user_cards[1])
+		userreviewsoffset = userreviewsoffset[53:userreviewsoffset.rfind('"')]
+		print(userreviewsoffset)
+		ok = str(input('OK: '))
 
 	parsed_json = json.dumps(content_reviews)
 	file = open("Comentarios.json", "w")
 	file.write(parsed_json)
 	file.close()
 	print(parsed_json)
+
 
 
 crawler_review(730)
