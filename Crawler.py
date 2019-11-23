@@ -20,7 +20,7 @@ def crawler_init(id_thread, max):
 	last = file.readline()
 	file.close()
 
-	for steam_appid in range(int(last), max, 9):
+	for steam_appid in range(int(last), max):
 		
 		req = requests.get('https://store.steampowered.com/api/appdetails/?appids='+str(str(steam_appid))+'&l=portuguese') 
 
@@ -120,7 +120,7 @@ def crawler_init(id_thread, max):
 
 		#MAC
 		try:
-			mac_requiriments = parsed_json[str(steam_appid)]['data']['mac_requirements']
+			mac_requirements = parsed_json[str(steam_appid)]['data']['mac_requirements']
 			info_dict.update({'MacRequirements':mac_requirements})
 		except:
 			print('Não possui requirimentos para MAC\n')
@@ -128,7 +128,7 @@ def crawler_init(id_thread, max):
 
 		#Linux
 		try:
-			linux_requiriments = parsed_json[str(steam_appid)]['data']['linux_requirements']
+			linux_requirements = parsed_json[str(steam_appid)]['data']['linux_requirements']
 			info_dict.update({'LinuxRequirements':linux_requirements})
 		except:
 			print('Não possui requirimentos para Linux\n')
