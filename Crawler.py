@@ -75,7 +75,7 @@ def crawler_init(id_thread, max):
 		except:
 			pass
 
-		print('Coletando informações do jogo ' + str(parsed_json[str(steam_appid)]['data']['name']) + ' appid ' + str(steam_appid) + 'Thread ' + str(id_thread))
+		print('Coletando informações do jogo ' + str(parsed_json[str(steam_appid)]['data']['name']) + ' appid ' + str(steam_appid) + ' Thread ' + str(id_thread))
 
 		#get detailed_description
 		try:

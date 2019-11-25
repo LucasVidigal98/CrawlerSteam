@@ -5,21 +5,12 @@ import requests
 import json
 import urllib.parse
 
-def crawler_reviews(appid, name, recommendations):
+def crawler_reviews(appid, name):
 	
-	if int(recommendations) == 0:
-		return 
-
-	if int(recommendations) > 1000000:
-		n_rec = int(int(recommendations) / 3)
-	elif int(recommendations) > 500000:
-		n_rec = int(int(recommendations) / 2)
-	else:
-		n_rec = int(recommendations)
-
 	id_review = 0
 	first = True
 	trouble = False
+	n_rec = 60000
 	number_pages = int(int(n_rec/10))
 	page = 1
 	count_trouble = 0
@@ -45,8 +36,7 @@ def crawler_reviews(appid, name, recommendations):
 			if count_trouble >= 5:
 				break
 
-			print('aqui2')
-			print(count_trouble)
+			print('Página perdida, Tentativa: ' + count_trouble)
 			try:
 				req = requests.get('https://steamcommunity.com/app/'+str(appid)+'/homecontent/?userreviewscursor='+urllib.parse.quote(userreviewscursor)+'&userreviewsoffset='+userreviewsoffset+'&p='+str(page)+'&workshopitemspage='+str(page)+'&readytouseitemspage='+str(page)+'&mtxitemspage='+str(page)+'&itemspage='+str(page)+'&screenshotspage='+str(page)+'&videospage='+str(page)+'&artpage='+str(page)+'&allguidepage='+str(page)+'&webguidepage='+str(page)+'&integratedguidepage='+str(page)+'&discussionspage='+str(page)+'&numperpage=10browsefilter=toprated&browsefilter=toprated&appid='+str(appid)+'snr=1_5_100010_&l=brazilian&appHubSubSection=10&filterLanguage=default&searchText=forceanon=1')
 				trouble = False
@@ -142,7 +132,6 @@ def crawler_reviews(appid, name, recommendations):
 			'''
 			page += 1
 		except:
-			print('Aqui1')
 			trouble = True
 			count_trouble += 1
 			continue
