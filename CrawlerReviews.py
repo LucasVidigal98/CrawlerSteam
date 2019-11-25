@@ -23,7 +23,7 @@ def crawler_reviews(appid, name, recommendations):
 
 		req = ''
 
-		print('Cometários coletados até o momento = ' + str(id_review) + ' de ' + str(n_rec), end='\r')
+		print(f'({str(name)})Cometários coletados até o momento = ' + str(id_review) + ' de ' + str(n_rec), end='\n')
 		#print('Coletando cometários Jogo '+ str(name) + ' Página ' + str(page) + ' de ' + str(number_pages), end='\n')
 
 		if trouble == False:
