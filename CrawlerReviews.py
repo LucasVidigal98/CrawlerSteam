@@ -28,7 +28,7 @@ def crawler_reviews(appid, name, recommendations):
 
 		req = ''
 
-		#print('Cometários coletados até o momento = ' + str(id_review) + ' de ' + str(n_rec), end='\n')
+		print('Cometários coletados até o momento = ' + str(id_review) + ' de ' + str(n_rec), end='\r')
 		#print('Coletando cometários Jogo '+ str(name) + ' Página ' + str(page) + ' de ' + str(number_pages), end='\n')
 
 		if trouble == False:
@@ -36,6 +36,7 @@ def crawler_reviews(appid, name, recommendations):
 			if first == True:
 				req = requests.get('https://steamcommunity.com/app/'+str(appid)+'/homecontent/?p='+str(page)+'&workshopitemspage='+str(page)+'&readytouseitemspage='+str(page)+'&mtxitemspage='+str(page)+'&itemspage='+str(page)+'&screenshotspage='+str(page)+'&videospage='+str(page)+'&artpage='+str(page)+'&allguidepage='+str(page)+'&webguidepage='+str(page)+'&integratedguidepage='+str(page)+'&discussionspage='+str(page)+'&numperpage=10&browsefilter=toprated&browsefilter=toprated&appid='+str(appid)+'snr=1_5_100010_&l=brazilian&appHubSubSection=10&filterLanguage=default&searchText=forceanon=1')
 				first = False
+
 			else:
 				req = requests.get('https://steamcommunity.com/app/'+str(appid)+'/homecontent/?userreviewscursor='+urllib.parse.quote(userreviewscursor)+'&userreviewsoffset='+userreviewsoffset+'&p='+str(page)+'&workshopitemspage='+str(page)+'&readytouseitemspage='+str(page)+'&mtxitemspage='+str(page)+'&itemspage='+str(page)+'&screenshotspage='+str(page)+'&videospage='+str(page)+'&artpage='+str(page)+'&allguidepage='+str(page)+'&webguidepage='+str(page)+'&integratedguidepage='+str(page)+'&discussionspage='+str(page)+'&numperpage=10browsefilter=toprated&browsefilter=toprated&appid='+str(appid)+'snr=1_5_100010_&l=brazilian&appHubSubSection=10&filterLanguage=default&searchText=forceanon=1')
 		
@@ -44,8 +45,17 @@ def crawler_reviews(appid, name, recommendations):
 			if count_trouble >= 5:
 				break
 
-			req = requests.get('https://steamcommunity.com/app/'+str(appid)+'/homecontent/?userreviewscursor='+urllib.parse.quote(userreviewscursor)+'&userreviewsoffset='+userreviewsoffset+'&p='+str(page)+'&workshopitemspage='+str(page)+'&readytouseitemspage='+str(page)+'&mtxitemspage='+str(page)+'&itemspage='+str(page)+'&screenshotspage='+str(page)+'&videospage='+str(page)+'&artpage='+str(page)+'&allguidepage='+str(page)+'&webguidepage='+str(page)+'&integratedguidepage='+str(page)+'&discussionspage='+str(page)+'&numperpage=10browsefilter=toprated&browsefilter=toprated&appid='+str(appid)+'snr=1_5_100010_&l=brazilian&appHubSubSection=10&filterLanguage=default&searchText=forceanon=1')
-			trouble = False
+			print('aqui2')
+			print(count_trouble)
+			try:
+				req = requests.get('https://steamcommunity.com/app/'+str(appid)+'/homecontent/?userreviewscursor='+urllib.parse.quote(userreviewscursor)+'&userreviewsoffset='+userreviewsoffset+'&p='+str(page)+'&workshopitemspage='+str(page)+'&readytouseitemspage='+str(page)+'&mtxitemspage='+str(page)+'&itemspage='+str(page)+'&screenshotspage='+str(page)+'&videospage='+str(page)+'&artpage='+str(page)+'&allguidepage='+str(page)+'&webguidepage='+str(page)+'&integratedguidepage='+str(page)+'&discussionspage='+str(page)+'&numperpage=10browsefilter=toprated&browsefilter=toprated&appid='+str(appid)+'snr=1_5_100010_&l=brazilian&appHubSubSection=10&filterLanguage=default&searchText=forceanon=1')
+				trouble = False
+			except:
+				try:
+					req = requests.get('https://steamcommunity.com/app/'+str(appid)+'/homecontent/?p='+str(page)+'&workshopitemspage='+str(page)+'&readytouseitemspage='+str(page)+'&mtxitemspage='+str(page)+'&itemspage='+str(page)+'&screenshotspage='+str(page)+'&videospage='+str(page)+'&artpage='+str(page)+'&allguidepage='+str(page)+'&webguidepage='+str(page)+'&integratedguidepage='+str(page)+'&discussionspage='+str(page)+'&numperpage=10&browsefilter=toprated&browsefilter=toprated&appid='+str(appid)+'snr=1_5_100010_&l=brazilian&appHubSubSection=10&filterLanguage=default&searchText=forceanon=1')
+					trouble = False
+				except:
+					pass
 
 		soup = BS(req.text, 'html.parser')
 		reviews = soup.find_all(class_='apphub_Card modalContentLink interactable')
@@ -132,6 +142,7 @@ def crawler_reviews(appid, name, recommendations):
 			'''
 			page += 1
 		except:
+			print('Aqui1')
 			trouble = True
 			count_trouble += 1
 			continue
