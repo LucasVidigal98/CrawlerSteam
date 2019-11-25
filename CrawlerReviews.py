@@ -5,12 +5,16 @@ import requests
 import json
 import urllib.parse
 
-def crawler_reviews(appid, name):
+def crawler_reviews(appid, name, recommendations):
 	
+	if int(recommendations) >= 60000:
+		n_rec = 60000
+	else:
+		n_rec = int(recommendations)
+
 	id_review = 0
 	first = True
 	trouble = False
-	n_rec = 60000
 	number_pages = int(int(n_rec/10))
 	page = 1
 	count_trouble = 0
