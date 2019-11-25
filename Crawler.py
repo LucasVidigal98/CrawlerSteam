@@ -25,7 +25,7 @@ def crawler_init(id_thread, max):
 		req = requests.get('https://store.steampowered.com/api/appdetails/?appids='+str(str(steam_appid))+'&l=portuguese') 
 
 		if req.status_code != 200:
-			print ('Falha ao baixar pagina')
+			print ('Falha ao baixar pagina appid ' + str(steam_appid))
 			continue
 
 		parsed_json = json.loads(req.text)

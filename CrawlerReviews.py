@@ -40,7 +40,8 @@ def crawler_reviews(appid, name, recommendations):
 			if count_trouble >= 5:
 				break
 
-			print('Página perdida, Tentativa: ' + count_trouble)
+			print('\n')
+			print('Página perdida, Tentativa: ' + str(count_trouble))
 			try:
 				req = requests.get('https://steamcommunity.com/app/'+str(appid)+'/homecontent/?userreviewscursor='+urllib.parse.quote(userreviewscursor)+'&userreviewsoffset='+userreviewsoffset+'&p='+str(page)+'&workshopitemspage='+str(page)+'&readytouseitemspage='+str(page)+'&mtxitemspage='+str(page)+'&itemspage='+str(page)+'&screenshotspage='+str(page)+'&videospage='+str(page)+'&artpage='+str(page)+'&allguidepage='+str(page)+'&webguidepage='+str(page)+'&integratedguidepage='+str(page)+'&discussionspage='+str(page)+'&numperpage=10browsefilter=toprated&browsefilter=toprated&appid='+str(appid)+'snr=1_5_100010_&l=brazilian&appHubSubSection=10&filterLanguage=default&searchText=forceanon=1')
 				trouble = False
